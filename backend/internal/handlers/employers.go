@@ -12,7 +12,7 @@ import (
 func GetEmployers(db *pgxpool.Pool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
-		rows, err := db.Query(ctx, "SELECT id, fullname, email, lemons, diamonds FROM employers")
+		rows, err := db.Query(ctx, "SELECT id, fullname, email, lemons, diamonds, department_id FROM employers")
 		if err != nil {
 			http.Error(w, "Failed to fetch employers", http.StatusInternalServerError)
 			log.Printf("Error querying database: %v", err)
@@ -23,7 +23,7 @@ func GetEmployers(db *pgxpool.Pool) http.HandlerFunc {
 		var employers []models.Employer
 		for rows.Next() {
 			var e models.Employer
-			if err := rows.Scan(&e.ID, &e.Fullname, &e.Email, &e.Lemons, &e.Diamonds); err != nil {
+			if err := rows.Scan(&e.ID, &e.Fullname, &e.Email, &e.Lemons, &e.Diamonds, &e.DepartmentId); err != nil {
 				http.Error(w, "Failed to scan row", http.StatusInternalServerError)
 				log.Printf("Error scanning row: %v", err)
 				return

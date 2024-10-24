@@ -19,6 +19,7 @@ func main() {
 
 	http.HandleFunc("/orders", handlers.GetOrders(db))
 	http.HandleFunc("/employers", handlers.GetEmployers(db))
+	http.HandleFunc("/departments", handlers.GetDepartments(db))
 
 	srv := server.New(db)
 	log.Println("Server starting on port 8080")
